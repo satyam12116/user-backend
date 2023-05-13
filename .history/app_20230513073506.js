@@ -100,8 +100,37 @@ app.delete('/msg/:id', (req, res) => {
   });
 });
 
+///////// project request
+// GET all project req
+app.get('/project', (req, res) => {
+  const sql = 'SELECT * FROM project';
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
 
+// POST a new user
+app.post('/project', (req, res) => {
+  const { name, email, status, phoneNo,clgName, projectDocumentation,projectLanguage,address } = req.body;
+  const sql = `INSERT INTO project (name, email, status, phoneNo,clgName, projectDocumentation,projectLanguage,address) VALUES (?, ?,?, ?, ?, ?,?,?)`;
+  db.query(sql, [name, email, status, phoneNo,clgName, projectDocumentation,projectLanguage,address], (err, result) => {
+    if (err) throw err;
+    res.send({msg:'project created'});
+  });
+});
 
+// PUT/update a user by ID
+app.put('/project/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, email, status, phoneNo, clgName,projectDocumentation,projectLanguage,address } = req.body;
+  const sql = `UPDATE project SET name = ?, email = ?, status = ?, phoneNo = ?, clgName = ?,projectDocumentation=?,projectLanguage=?,address=? WHERE _id = ?`;
+  db.query(sql, [name, email, status, phoneNo,clgName, projectDocumentation,projectLanguage,address, id], (err, result) => {
+    if (err) throw err;
+    res.send({msg:'project updated'});
+  });
+});
+//////////// project request
 //GET all furniture req
 app.get('/furniture', (req, res) => {
   const sql = 'SELECT * FROM furniture';
@@ -111,21 +140,21 @@ app.get('/furniture', (req, res) => {
   });
 });
 
-
+// POST a new user
 app.post('/furniture', (req, res) => {
   const { name, email, status, phoneNo,dateOfDelivery, furnitureToChoose,customFurniture,deliveryAddress,suggestionNote } = req.body;
-  const sql = `INSERT INTO furniture (name, email, status, phoneNo,dateOfDelivery, furnitureToChoose,customFurniture,deliveryAddress,suggestionNote) VALUES (?, ?,?, ?, ?, ?,?,?,?)`;
+  const sql = `INSERT INTO project (name, email, status, phoneNo,dateOfDelivery, furnitureToChoose,customFurniture,deliveryAddress,suggestionNote) VALUES (?, ?,?, ?, ?, ?,?,?,?)`;
   db.query(sql, [name, email, status, phoneNo,dateOfDelivery, furnitureToChoose,customFurniture,deliveryAddress,suggestionNote], (err, result) => {
     if (err) throw err;
     res.send({msg:'furniture Request added'});
   });
 });
 
-
+// PUT/update a user by ID
 app.put('/furniture/:id', (req, res) => {
   const { id } = req.params;
   const {name, email, status, phoneNo,dateOfDelivery, furnitureToChoose,customFurniture,deliveryAddress,suggestionNote } = req.body;
-  const sql = `UPDATE furniture SET name = ?, email = ?, status = ?, phoneNo = ?, dateOfDelivery = ?,furnitureToChoose=?,customFurniture=?,deliveryAddress=?,suggestionNote=? WHERE _id = ?`;
+  const sql = `UPDATE project SET name = ?, email = ?, status = ?, phoneNo = ?, dateOfDelivery = ?,furnitureToChoose=?,customFurniture=?,deliveryAddress=?,suggestionNote=? WHERE _id = ?`;
   db.query(sql, [name, email, status, phoneNo,dateOfDelivery, furnitureToChoose,customFurniture,deliveryAddress,suggestionNote, id], (err, result) => {
     if (err) throw err;
     res.send({msg:'furniture request updated'});

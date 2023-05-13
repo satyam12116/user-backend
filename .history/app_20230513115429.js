@@ -100,7 +100,36 @@ app.delete('/msg/:id', (req, res) => {
   });
 });
 
+///////// project request
+// GET all project req
+app.get('/project', (req, res) => {
+  const sql = 'SELECT * FROM project';
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
 
+// POST a new user
+app.post('/project', (req, res) => {
+  const { name, email, status, phoneNo,clgName, projectDocumentation,projectLanguage,address } = req.body;
+  const sql = `INSERT INTO project (name, email, status, phoneNo,clgName, projectDocumentation,projectLanguage,address) VALUES (?, ?,?, ?, ?, ?,?,?)`;
+  db.query(sql, [name, email, status, phoneNo,clgName, projectDocumentation,projectLanguage,address], (err, result) => {
+    if (err) throw err;
+    res.send({msg:'project created'});
+  });
+});
+
+// PUT/update a user by ID
+app.put('/project/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, email, status, phoneNo, clgName,projectDocumentation,projectLanguage,address } = req.body;
+  const sql = `UPDATE project SET name = ?, email = ?, status = ?, phoneNo = ?, clgName = ?,projectDocumentation=?,projectLanguage=?,address=? WHERE _id = ?`;
+  db.query(sql, [name, email, status, phoneNo,clgName, projectDocumentation,projectLanguage,address, id], (err, result) => {
+    if (err) throw err;
+    res.send({msg:'project updated'});
+  });
+});
 
 //GET all furniture req
 app.get('/furniture', (req, res) => {
